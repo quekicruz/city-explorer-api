@@ -23,6 +23,7 @@ app.get('/weather', (request,response) => {
 
   // const data = [
   //   lat,lon,search 
+  response.send(`Get your weather report here!`);
   
 });
 
