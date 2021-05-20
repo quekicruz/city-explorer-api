@@ -37,6 +37,7 @@ async function getWeather (request,response) {
 }
 
 
+
 app.get('/movies',getMovies);
 
 async function getMovies (request, response ) {
