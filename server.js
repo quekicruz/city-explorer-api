@@ -21,6 +21,7 @@ const MOVIE_API_KEY = process.env.MOVIE_API_KEY;
 
 app.get('/weather', getWeather);
 
+
 async function getWeather (request,response) {
 
   const lat = request.query.lat;
@@ -40,6 +41,9 @@ async function getWeather (request,response) {
   } catch (error) {
     Error(error, response);
   }
+
+  // const data = [
+  //   lat,lon,search 
   
 };
   
@@ -102,6 +106,9 @@ async function getMovies (request, response ) {
     }
 
 
+
     
     
 app.listen(PORT, () => console.log('Server is running'))
+
+
