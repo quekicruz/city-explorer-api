@@ -22,18 +22,25 @@ const MOVIE_API_KEY = process.env.MOVIE_API_KEY;
 app.get('/weather', getWeather);
 
 async function getWeather (request,response) {
-
+  console.log(request.query);
   const lat = request.query.lat;
   const lon = request.query.lon
   
   const weatherUrl = `http://api.weatherbit.io/v2.0/current?lat=${lat}&lon=${lon}&key=${WEATHER_API_KEY}`
   let weatherResponse = await axios.get(weatherUrl)
-  console.log(weatherResponse);
+  // console.log(weatherResponse);
   response.json(weatherResponse.data)
+  
+  class Forecast{
+    constructor(day) {
+      this.date = day.datetime;
+      this.description= `Low of ${day.low_temp} and high of ${day.high_temp}, with ${day.weather.description}`
+    }
+  }
   
   try{
     
-    const allForecast = weatherResponse.data.data.map(day => new Forecast(day)); 
+    const allForecast = new Forecast(weatherResponse.data); 
     response.send(allForecast);
     response.json(allForecast);
     
@@ -94,12 +101,6 @@ async function getMovies (request, response ) {
       }
     }
     
-    class Forecast{
-      constructor(day) {
-        this.date = day.datetime;
-        this.description= `Low of ${day.low_temp} and high of ${day.high_temp}, with ${day.weather.description}`
-      }
-    }
 
 
     
