@@ -12,7 +12,7 @@ app.use(cors());
 
 const PORT = process.env.PORT || 3050;
 const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
-const MOVIE_API_KEY = process.env.MOVIE_API_KEY;
+// const MOVIE_API_KEY = process.env.MOVIE_API_KEY;
 
 
 // const getWeather = require('./lib/weather.js')
@@ -28,21 +28,24 @@ async function getWeather (request,response) {
   
   const weatherUrl = `http://api.weatherbit.io/v2.0/current?key=${WEATHER_API_KEY}&lat=${lat}&lon=${lon}&days=5`
   let weatherResponse = await axios.get(weatherUrl)
-  console.log(weatherResponse.data);
-  
-  
+  .then(response => parseWeather(response.data));
+  response.send(allForecast)
+};
+
+function parseWeather(weatherResponse){
   try{
     const allForecast = weatherResponse.data.map(day => {
       return new Forecast(day); 
     }) 
-
-    response.send(allForecast);
-    
+    console.log(allForecast);
+    return Promise.resolve(allForecast);
   } catch (error) {
-    Error(error, response);
-  }
-  
-};
+     return Promise.reject(error)
+    }
+}
+
+    
+
 
 class Forecast{
   constructor(day) {
@@ -62,19 +65,19 @@ class Forecast{
 
 
 
-app.get('/movies',getMovies);
+// app.get('/movies',getMovies);
 
-async function getMovies (request, response ) {
+// async function getMovies (request, response ) {
   
   
-  const searchM = request.query.search 
+//   const searchM = request.query.search 
   
-  const movieUrl = `https://api.themoviedb.org/3/search/movie?api_key=${MOVIE_API_KEY}&query=${searchM}`
+//   const movieUrl = `https://api.themoviedb.org/3/search/movie?api_key=${MOVIE_API_KEY}&query=${searchM}`
   
   
-  const movieResponse = await axios.get(movieUrl)
-  console.log(movieResponse.data);
-  response.json(movieResponse.data);
+//   const movieResponse = await axios.get(movieUrl)
+//   console.log(movieResponse.data);
+//   response.json(movieResponse.data);
   
   // .then(response => {
   //   console.log(request.query);
@@ -89,18 +92,18 @@ async function getMovies (request, response ) {
       //  })
       //  console.log(newMovieArray);
       //  response.json(newMovieArray);
-    }
+    
     
     app.get('*', (request, response) => {
       response.status(500).send('Something went wrong... Wrong route sent!');
     });
 
 
-    class Movies{
-      constructor(){
+    // class Movies{
+    //   constructor(){
         
-      }
-    }
+    //   }
+    // }
     
 
 
