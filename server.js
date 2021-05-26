@@ -21,6 +21,7 @@ const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
 
 app.get('/weather', getWeather);
 
+
 async function getWeather (request,response) {
   // console.log(request.query);
   const lat = request.query.lat;
@@ -45,6 +46,14 @@ function parseWeather(weatherResponse){
 }
 
     
+
+  } catch (error) {
+    Error(error, response);
+  }
+
+  // const data = [
+  //   lat,lon,search 
+  
 
 
 class Forecast{
@@ -107,6 +116,9 @@ class Forecast{
     
 
 
+
     
     
 app.listen(PORT, () => console.log('Server is running'))
+
+
